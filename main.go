@@ -8,13 +8,26 @@ import (
 	"github.com/dinesh00509/gitease/internals"
 )
 
+const version = "v1.0.0"
+
 func main() {
-	if len(os.Args) > 1 && (os.Args[1] == "-h" || os.Args[1] == "--help") {
-		fmt.Println("GitEase - Interactive Git Assistant")
-		fmt.Println("Usage: gitease")
-		fmt.Println("Navigate and manage Git tasks interactively in your terminal.")
-		os.Exit(0)
+	if len(os.Args) > 1 {
+		arg := os.Args[1]
+		if arg == "--version" || arg == "-v" {
+			fmt.Println("GitEase", version)
+			os.Exit(0)
+		}
+		if arg == "--help" || arg == "-h" {
+			fmt.Println("GitEase - Interactive Git Assistant")
+			fmt.Println("Usage: gitease")
+			fmt.Println("Navigate and manage Git tasks interactively in your terminal.")
+			fmt.Println("Flags:")
+			fmt.Println("  --version, -v   Show version")
+			fmt.Println("  --help, -h      Show this help message")
+			os.Exit(0)
+		}
 	}
+
 	p := tea.NewProgram(internals.IntialModel())
 
 	if err := p.Start(); err != nil {
