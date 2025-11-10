@@ -3,6 +3,7 @@ package internals
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
@@ -70,24 +71,31 @@ func (m model) View() string {
 }
 
 func (m model) runCurrentStep() (tea.Model, tea.Cmd) {
-	step := m.steps[m.cursor]
 	m.output = fmt.Sprintf("Running: %s...\n", m.steps[m.cursor].label)
-
 	switch m.cursor {
 	case 0:
 		m.output += RunGit("add", ".")
+		m.output += "\nStaging completed successfully."
+
 	case 1:
 		m.output += RunGit("status")
+		m.output += "Status check completed."
+
 	case 2:
 		m.commiting = true
 		m.textInput.SetValue("")
 		m.textInput.Focus()
 		m.output = ""
+
 	case 3:
 		m.output += RunGit("push")
 	}
-	step.done = true
-	return m, nil
+
+	if m.cursor != 2 {
+		m.steps[m.cursor].done = true
+	}
+
+	return m, tea.Tick(time.Millisecond*100, func(time.Time) tea.Msg { return nil })
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
