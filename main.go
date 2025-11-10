@@ -8,7 +8,7 @@ import (
 	"github.com/dinesh00509/gitease/internals"
 )
 
-const version = "v1.0.0"
+const version = "v1.0.1"
 
 func main() {
 	if len(os.Args) > 1 {
