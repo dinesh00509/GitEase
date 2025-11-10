@@ -53,9 +53,10 @@ func IntialModel() model {
 
 func (m model) Init() tea.Cmd { return textinput.Blink }
 
+// For viewing.
 func (m model) View() string {
 	var b strings.Builder
-	b.WriteString(titleStyle.Render("GIT FLOW ASSISTANT") + "\n")
+	b.WriteString(titleStyle.Render("GitEase") + "\n")
 	b.WriteString(divider + "\n\n")
 
 	for i, s := range m.steps {
