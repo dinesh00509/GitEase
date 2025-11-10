@@ -28,10 +28,11 @@ func main() {
 		}
 	}
 
-	p := tea.NewProgram(internals.IntialModel())
+	p := tea.NewProgram(internals.InitialModel())
 
-	if err := p.Start(); err != nil {
-		fmt.Println("Error running GitFlow:", err)
+	_, err := p.Run()
+	if err != nil {
+		fmt.Println("Error running GitEase:", err)
 		os.Exit(1)
 	}
 }
