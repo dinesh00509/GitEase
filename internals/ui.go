@@ -7,6 +7,17 @@ import (
 
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
+)
+
+var (
+	titleStyle      = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("#00FFFF")).Padding(0, 1)
+	stepDoneStyle   = lipgloss.NewStyle().Foreground(lipgloss.Color("#00FF00"))
+	stepCursorStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#FFD700")).Bold(true)
+	outputStyle     = lipgloss.NewStyle().Foreground(lipgloss.Color("#87CEFA")).MarginTop(1)
+	successStyle    = lipgloss.NewStyle().Foreground(lipgloss.Color("#32CD32")).Bold(true)
+	errorStyle      = lipgloss.NewStyle().Foreground(lipgloss.Color("#FF5555"))
+	divider         = lipgloss.NewStyle().Foreground(lipgloss.Color("#555555")).Render(strings.Repeat("─", 30))
 )
 
 type step struct {
@@ -39,33 +50,44 @@ func IntialModel() model {
 		textInput: ti,
 	}
 }
+
 func (m model) Init() tea.Cmd { return textinput.Blink }
 
 func (m model) View() string {
 	var b strings.Builder
-	b.WriteString("GIT FLOW\n")
-	b.WriteString("-------------------------\n")
+	b.WriteString(titleStyle.Render("GIT FLOW ASSISTANT") + "\n")
+	b.WriteString(divider + "\n\n")
 
 	for i, s := range m.steps {
 		var cursor = " "
 		if m.cursor == i {
-			cursor = "->"
+			cursor = stepCursorStyle.Render("->")
 		}
 		status := "[ ]"
 		if s.done {
-			status = "[✔]"
+			status = stepDoneStyle.Render("[✔]")
 		}
-		b.WriteString(fmt.Sprintf("%s %s %s\n", cursor, status, s.label))
+
+		line := fmt.Sprintf("%s %s %s\n", cursor, status, s.label)
+		b.WriteString(line)
 	}
-	b.WriteString("\nUse ↑/↓ to navigate, Enter to run, q to quit.\n")
-	b.WriteString("───────────────────────────────\n")
+	b.WriteString("\n" + divider + "\n")
 
 	if m.commiting {
-		b.WriteString("Type your commit message and press Enter (ESC to cancel):\n")
+
+		b.WriteString(stepCursorStyle.Render("Type your commit message and press Enter (ESC to cancel):") + "\n")
 		b.WriteString(m.textInput.View())
 	} else {
-		b.WriteString(m.output)
+		if strings.Contains(m.output, "Error") {
+			b.WriteString(errorStyle.Render(m.output))
+		} else if strings.Contains(m.output, "completed") {
+			b.WriteString(successStyle.Render(m.output))
+		} else {
+			b.WriteString(outputStyle.Render(m.output))
+		}
 	}
+	b.WriteString("\n" + divider + "\n")
+	b.WriteString(lipgloss.NewStyle().Faint(true).Render("Use ↑/↓ to navigate, Enter to run, q to quit.\n"))
 
 	return b.String()
 }
