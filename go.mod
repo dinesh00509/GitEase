@@ -1,4 +1,4 @@
-module github.com/dinesh00509/GitEase
+module github.com/dinesh00509/gitease
 
 go 1.25.3
 
