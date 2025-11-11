@@ -13,7 +13,7 @@ It was created as part of a Go learning journey and turns everyday Git commands 
 Use `curl` to download and execute the installation script:
 
 ```bash
-curl -sSL [https://raw.githubusercontent.com/dinesh00509/gitease/main/install.sh](https://raw.githubusercontent.com/dinesh00509/gitease/main/install.sh) | bash
+curl -sSL https://raw.githubusercontent.com/dinesh00509/gitease/main/install.sh | bash
 ```
 
 ### Windows (PowerShell)
@@ -30,6 +30,6 @@ gitease --version
 ### Usage
 After installation, simply run:
 ```bash
-gitease
+gitease --run
 ```
 
