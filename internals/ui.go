@@ -65,6 +65,14 @@ func (m Model) View() string {
 			b.WriteString(stepActiveStyle.Render("Enter branch name to switch:") + "\n")
 		}
 		b.WriteString(m.TextInput.View())
+	} else if m.PullBranch {
+		if m.PullFromOtherBranch {
+			b.WriteString(stepActiveStyle.Render("Enter branch name to pull from:") + "\n")
+			b.WriteString(m.TextInput.View())
+		} else {
+			b.WriteString(stepActiveStyle.Render("Press Enter to pull from current branch") + "\n")
+			b.WriteString(m.TextInput.View())
+		}
 	} else {
 		if m.Output == "" {
 			b.WriteString(outputBox.Render("Waiting for command..."))

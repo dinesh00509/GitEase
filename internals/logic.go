@@ -51,11 +51,13 @@ func (m Model) RunCurrentStep() (tea.Model, tea.Cmd) {
 
 	case 6:
 		m.PullBranch = true
+		m.PullFromOtherBranch = false
 		m.TextInput.SetValue("")
 		m.TextInput.Focus()
 		m.Output = ""
 
 	case 7:
+		m.PullBranch = true
 		m.PullFromOtherBranch = true
 		m.TextInput.SetValue("")
 		m.TextInput.Focus()
@@ -128,30 +130,43 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, cmd
 	}
 
+	// Pull branch handling
 	if m.PullBranch {
 		switch msg := msg.(type) {
 		case tea.KeyMsg:
 			switch msg.String() {
 			case "enter":
 				if m.PullFromOtherBranch {
-					m.Output = RunGit("pull", "origin", m.TextInput.Value())
+					branchName := strings.TrimSpace(m.TextInput.Value())
+					if branchName == "" {
+						m.Output = "Branch name cannot be empty."
+						return m, nil
+					}
+					m.Output = RunGit("pull", "origin", branchName)
 					m.Output += "\nPull completed successfully."
 					m.Steps[m.Cursor].Done = true
-					return m, nil
 				} else {
+					// Pull from current branch
 					m.Output = RunGit("pull")
 					m.Output += "\nPull completed successfully."
 					m.Steps[m.Cursor].Done = true
-					return m, nil
 				}
+				m.PullBranch = false
+				m.PullFromOtherBranch = false
+				return m, nil
 			case "esc":
 				m.PullBranch = false
+				m.PullFromOtherBranch = false
 				m.Output = "Pull action cancelled."
 				return m, nil
 			}
 		}
-		m.TextInput, cmd = m.TextInput.Update(msg)
-		return m, cmd
+		// Only update text input if we're pulling from another branch
+		if m.PullFromOtherBranch {
+			m.TextInput, cmd = m.TextInput.Update(msg)
+			return m, cmd
+		}
+		return m, nil
 	}
 
 	// Navigation & actions
