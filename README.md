@@ -30,6 +30,6 @@ gitease --version
 ### Usage
 After installation, simply run:
 ```bash
-gitease
+gitease --run
 ```
 
