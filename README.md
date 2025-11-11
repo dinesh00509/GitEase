@@ -1,28 +1,35 @@
- ### GitEase
+# GitEase: Terminal-Based Git Assistant
 
-This project was created as part of my Go learning journey. GitEase is a simple, terminal-based Git assistant built in Go using the Bubbletea framework.
-It turns everyday Git commands — like staging, committing, and pushing — into an interactive terminal interface.
+**GitEase** is a simple, terminal-based Git assistant built in Go using the [Bubbletea](https://github.com/charmbracelet/bubbletea) framework. 
 
-### Installation
-#### Option 1 — Install with Go
-If you have Go installed, you can grab GitEase directly with:
+It was created as part of a Go learning journey and turns everyday Git commands — such as staging, committing, and pushing — into an **interactive terminal interface**.
 
-go install github.com/dinesh00509/gitease@latest
+---
 
-Once installed, run it:
+##  Installation
 
+### Linux / macOS
+
+Use `curl` to download and execute the installation script:
+
+```bash
+curl -sSL [https://raw.githubusercontent.com/dinesh00509/gitease/main/install.sh](https://raw.githubusercontent.com/dinesh00509/gitease/main/install.sh) | bash
+```
+
+### Windows (PowerShell)
+Open PowerShell and run the following command to download and execute the installation script:
+
+ ```bash
+iwr -useb https://raw.githubusercontent.com/dinesh00509/gitease/main/install.ps1 | iex
+```
+Once installed, verify the installation:
+```bash
+gitease --version
+```
+
+### Usage
+After installation, simply run:
+```bash
 gitease
+```
 
-#### Option 2 — Build from Source
-
-Clone the repo and build it manually:
-
-git clone https://github.com/dinesh00509/gitease.git
-cd GitEase
-go build -o gitease
-sudo mv gitease /usr/local/bin/
-
-
-Now you can run:
-
-gitease
