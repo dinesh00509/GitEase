@@ -10,14 +10,14 @@ type Step struct {
 }
 
 type Model struct {
-	Cursor     int
-	Steps      []Step
-	Output     string
-	Committing bool
-	TextInput  textinput.Model
-	BranchMode bool
-	NewBranch  bool
-	PullBranch bool
+	Cursor              int
+	Steps               []Step
+	Output              string
+	Committing          bool
+	TextInput           textinput.Model
+	BranchMode          bool
+	NewBranch           bool
+	PullBranch          bool
 	PullFromOtherBranch bool
 }
 
@@ -38,6 +38,8 @@ func InitialModel() Model {
 			{"Switch to another branch", false},
 			{"Pull from current branch", false},
 			{"Pull from other branch", false},
+			{"list all branches", false},
+			{"show the current branch", false},
 		},
 		TextInput: ti,
 	}

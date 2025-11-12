@@ -62,6 +62,16 @@ func (m Model) RunCurrentStep() (tea.Model, tea.Cmd) {
 		m.TextInput.SetValue("")
 		m.TextInput.Focus()
 		m.Output = ""
+
+	case 8:
+		m.Output = RunGit("branch", "-a")
+		m.Output += "\nList of branches completed successfully."
+		m.Steps[m.Cursor].Done = true
+
+	case 9:
+		m.Output = RunGit("branch")
+		m.Output += "\nCurrent branch completed successfully."
+		m.Steps[m.Cursor].Done = true
 	}
 
 	if m.Cursor != 2 && m.Cursor != 4 && m.Cursor != 5 && m.Cursor != 6 && m.Cursor != 7 {
