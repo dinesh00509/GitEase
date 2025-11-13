@@ -42,8 +42,6 @@ func InitialModel() Model {
 			{"show the current branch", false},
 			{"check the logs", false},
 			{" check the logs with reflog", false},
-			{"check the logs with oneline and graph", false},
-			{"check the reflogs with oneline and graph", false},
 		},
 		TextInput: ti,
 	}

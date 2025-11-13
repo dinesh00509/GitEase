@@ -79,12 +79,6 @@ func (m Model) RunCurrentStep() (tea.Model, tea.Cmd) {
 	case 11:
 		m.Output = RunGit("reflog")
 		m.Steps[m.Cursor].Done = true
-	case 12:
-		m.Output = RunGit("log", "--oneline", "--all", "--graph")
-		m.Steps[m.Cursor].Done = true
-	case 13:
-		m.Output = RunGit("reflog", "--oneline", "--all", "--graph")
-		m.Steps[m.Cursor].Done = true
 	}
 
 	if m.Cursor != 2 && m.Cursor != 4 && m.Cursor != 5 && m.Cursor != 6 && m.Cursor != 7 {
